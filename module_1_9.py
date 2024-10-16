@@ -12,7 +12,7 @@ grades = [[5, 3, 3, 5, 4], [2, 2, 2, 3], [4, 5, 5, 2], [4, 4, 3], [5, 5, 5, 4, 5
 # Множество: students = {'Johnny', 'Bilbo', 'Steve', 'Khendrik', 'Aaron'
 students = {"Johny",'Bilbo', 'Steve', 'Khendrik', 'Aaron'}
 print (" Список оценок - ",grades)
-print (" Множество студентов - ",sorted(students))
+print (" Множество студентов - {}".format(str(sorted(students)).replace('[','{').replace(']','}')))
 #print(grades)
 #print(sorted(students))
 
