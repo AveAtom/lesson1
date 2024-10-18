@@ -13,9 +13,9 @@ print("=== Условная конструкция. Операторы if, elif,
 err=0
 try:
     first,second,third = input("Введите через запятую три числа - ").split(',') # Вводим три числа через запятую
-    first = int(first) # Проверяем, что введено число
-    second = int(second) # Проверяем, что введено число
-    third = int(third) # Проверяем, что введено число
+    first = int(first) # Проверяем, что введено целое число
+    second = int(second) # Проверяем, что введено целое число
+    third = int(third) # Проверяем, что введено целое число
 except (ValueError) as er:
     print(er)
     err = 1
