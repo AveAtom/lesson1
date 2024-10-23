@@ -56,7 +56,7 @@ while True:
     if coord in is_dgs1:
         sum_dgs[a_id][0] += 1  # увеличиваем счетчик диагонали 1
     if coord in is_dgs2:
-        sum_dgs[a_id][1] += 1  # увеличиваем счетчик диагонали 1
+        sum_dgs[a_id][1] += 1  # увеличиваем счетчик диагонали 2
     # print(f'rows - {a_rows}, cols - {a_cols}, diags - {a_dgs}')
     if max(max(*sum_rows[a_id]), max(*sum_cols[a_id]),
            max(*sum_dgs[a_id])) == 3:  # Если в счетчиках присутствует 3 - мы выиграли.
