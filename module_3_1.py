@@ -59,16 +59,23 @@ random_list = ['Hello', 'apPle', 'soMething', 'YeAH', 'clone', 'pineapple', 'nOp
 
 # === Основная обработка
 # Вызываем каждую функцию случайным образом от 3 до 20 раз
-calls_rand = randint(3, 20)
+calls_rand = randint(3, 20)  # Определяем случайно количество вызовов функции.
 for i in range(calls_rand):
-    print(' String_info() result : {}'.format(string_info(random_list[randint(0, 8)])))
+    print(' String_info() result : {}'.format(string_info(random_list[randint(0, 8)])))  # Результат работы функции
+
 print(
     f'= For function string_info() Реальное число вызовов = {calls_rand} , Число вызовов по функции (calls) = {calls}')
+
 calls = 0
-calls_rand = randint(3, 20)
-print(f'\n Список для проверки слова (list_of_search) - {list_of_search}')
+calls_rand = randint(3, 20)  # Определяем случайно количество вызовов функции.
+print(
+    f'\n Список для проверки слова (list_of_search) - {list_of_search}')  # Выводи список слов по которому ведем поиск.
+
 for i in range(calls_rand):
-    word_rand = random_list[randint(0, 8)]
-    print(f' is_contains() result for word - {word_rand}', is_contains(word_rand, *list_of_search),sep=' => ')
+    word_rand = random_list[randint(0, 8)]  # Выбираем случайным образом слово для работы функции.
+    # Результат работы функции.
+    print(f' is_contains() result for word - {word_rand}', is_contains(word_rand, *list_of_search), sep=' => ')
+
 print(f'for function is_contains() Реальное число вызовов = {calls_rand} , Число вызовов по функции (calls) = {calls}')
-print(' Конец обработки.')
+
+print(' Конец обработки.')  # Конец обработки.
