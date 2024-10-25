@@ -1,5 +1,3 @@
-from random import randint  # импортируем функцию randint
-
 print("=== Пространство имён.====")
 
 
@@ -47,35 +45,15 @@ def string_info(string=""):
 def is_contains(string="", *list_to_search):  # python плохо принимает явно определяемые изменяемые коллекции
     # в аргументы. Поэтому использую *args
     count_calls()  # Вызываем функцию счетчик.
-    return string.upper() in list(list_to_search)  # Возвращаем результат по условию задачи.
+    return string.upper() in [x.upper() for x in list(*list_to_search)]  # Возвращаем результат по условию задачи.
 
 
 # === Исходные данные ======
 calls = 0  # Создаем переменную calls = 0 вне функций.
-list_of_words = ['hello', 'apple', 'something', 'yeah', 'nope', 'lalala']  # Список исходных слов
-list_of_search = list(x.upper() for x in list_of_words)  # Список слов для поиска.
-random_list = ['Hello', 'apPle', 'soMething', 'YeAH', 'clone', 'pineapple', 'nOpe', 'lalAla', 'NoT']  # Список слов
-# для выбора рандомизатором
-
-# === Основная обработка
-# Вызываем каждую функцию случайным образом от 3 до 20 раз
-calls_rand = randint(3, 20)  # Определяем случайно число вызовов функции.
-for i in range(calls_rand):
-    print(' String_info() result : {}'.format(string_info(random_list[randint(0, 8)])))  # Результат работы функции
-
-print(
-    f'= For function string_info() Реальное число вызовов = {calls_rand} , Число вызовов по функции (calls) = {calls}')
-
-calls = 0
-calls_rand = randint(3, 20)  # Определяем случайно число вызовов функции.
-print(
-    f'\n Список для проверки слова (list_of_search) - {list_of_search}')  # Выводи список слов по которому ведем поиск.
-
-for i in range(calls_rand):
-    word_rand = random_list[randint(0, 8)]  # Выбираем случайным образом слово для работы функции.
-    # Результат работы функции.
-    print(f' is_contains() result for word - {word_rand}', is_contains(word_rand, *list_of_search), sep=' => ')
-
-print(f'for function is_contains() Реальное число вызовов = {calls_rand} , Число вызовов по функции (calls) = {calls}')
+print(string_info('Capybara'))
+print(string_info('Armageddon'))
+print(is_contains('Urban', ['ban', 'BaNaN', 'urBAN']))  # Urban ~ urBAN
+print(is_contains('cycle', ['recycling', 'cyclic']))  # No matches
+print(calls)
 
 print(' Конец обработки.')  # Конец обработки.
