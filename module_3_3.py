@@ -32,14 +32,20 @@ print("=== Распаковка позиционных параметров.====
 # print(list_my)
 # *******************************************************************************************************
 # === Функции
-def print_params(a = 1, b = 'строка', c = True):
+def print_params(a = 1, b = 'строка', c = True): # Печать параметров по заданию.
     print(a,b,c)
+
+def append_to_list(item, list_my=None): # Добавление элементов в лист передаваемый в параметре
+    if list_my is None:
+        list_my = []
+    list_my.append(item)
 
 # === Определение переменных ===
 values_list = [1,'String',False] # Создайте список values_list с тремя элементами разных типов.
 values_dict = {'a':4,'b':'String1','c':False} # Создайте словарь values_dict с тремя ключами,
                                     # соответствующими параметрам функции print_params, и значениями разных типов.
 values_list_2 = [54.32, 'Строка' ] # Создайте список values_list_2 с двумя элементами разных типов
+list_ = []
 
 # === Прогон ===
 # Передайте values_list и values_dict в функцию print_params, используя распаковку параметров
@@ -48,5 +54,10 @@ print_params(*values_list)
 print_params(**values_dict)
 # Проверьте, работает ли print_params(*values_list_2, 42)
 print_params(*values_list_2, 42)
+# Проверяем работу функции append_to_list()
+append_to_list('1',list_)
+append_to_list(5,list_)
+append_to_list(True,list_)
+print(f'List_ - {list_}')
 
 print('\n=== Конец обработки ===')
