@@ -48,7 +48,7 @@ class House:
         print(f'Добро пожаловать в {self.name}. Высота нашего комплекса {self.say_floor()}.')
 
     def go_to(self, new_floor=0):  # Эмулирует подъем на лифте
-        if self.number_of_floor >= new_floor and int(new_floor) > 0:  # Если разрешенное значение.
+        if 0 < new_floor <= self.number_of_floor:  # Если разрешенное значение.
             for i in range(1, new_floor + 1):  # Эмуляция подъема.
                 print(i)
         else:  # Если не разрешенное значение.
@@ -56,7 +56,7 @@ class House:
 
 
 # === Прогон ===
-h1 = House('ЖК Горский', 22)
+h1 = House('ЖК Горский', 18)
 h2 = House('Домик в деревне', 2)
 h1.go_to(5)
 h2.go_to(10)
