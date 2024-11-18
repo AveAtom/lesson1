@@ -1,4 +1,6 @@
 print("=== Перегрузка операторов. ====\n")
+
+
 # Задача "Нужно больше этажей":
 # Для решения этой задачи будем пользоваться решением к предыдущей задаче "Специальные методы класса".
 # Необходимо дополнить класс House следующими специальными методами:
@@ -17,8 +19,10 @@ print("=== Перегрузка операторов. ====\n")
 # 1.Методы __iadd__ и __radd__ не обязательно описывать заново, достаточно вернуть значение вызова __add__.
 # 2.Более подробно о работе всех перечисленных методов можно прочитать здесь и здесь.
 # === Классы ===
-class ValidationError(Exception): # Для перехвата ошибок конструкцией try - except переопределяем класс ValidationError
+class ValidationError(Exception):  # Для перехвата ошибок конструкцией try - except переопределяем класс ValidationError
     pass
+
+
 class House:
     def __init__(self, name='Пустырь', number_of_floor=0):
         self.name = name  # создаем атрибут объекта наименование объекта
@@ -35,63 +39,63 @@ class House:
 
     # ----Дополнение к текущей задаче
 
-    def __eq__(self, other): # ==
-        if isinstance(other,House):
+    def __eq__(self, other):  # ==
+        if isinstance(other, House):
             return self.number_of_floor == other.number_of_floor
         else:
             raise ValidationError('Значения должны принадлежать классу House')
 
-    def __lt__(self, other): # <
-        if isinstance(other,House):
+    def __lt__(self, other):  # <
+        if isinstance(other, House):
             return self.number_of_floor < other.number_of_floor
         else:
             raise ValidationError('Значения должны принадлежать классу House')
 
-    def __le__(self, other): # <=
-        if isinstance(other,House):
+    def __le__(self, other):  # <=
+        if isinstance(other, House):
             return self.number_of_floor <= other.number_of_floor
         else:
             raise ValidationError('Значения должны принадлежать классу House')
 
-    def __gt__(self, other): # >
-        if isinstance(other,House):
+    def __gt__(self, other):  # >
+        if isinstance(other, House):
             return self.number_of_floor > other.number_of_floor
         else:
             raise ValidationError('Значения должны принадлежать классу House')
 
-    def __ge__(self, other): # >=
-        if isinstance(other,House):
+    def __ge__(self, other):  # >=
+        if isinstance(other, House):
             return self.number_of_floor >= other.number_of_floor
         else:
             raise ValidationError('Значения должны принадлежать классу House')
 
-    def __ne__(self, other): # !=
-        if isinstance(other,House):
+    def __ne__(self, other):  # !=
+        if isinstance(other, House):
             return self.number_of_floor != other.number_of_floor
         else:
             raise ValidationError('Значения должны принадлежать классу House')
 
     def __add__(self, other):
-        if isinstance(other,int):
-            self.number_of_floor += other
-            return self # Для сохранения оригинального типа возвращаем оригинальный класс.
+        if isinstance(other, int | House):
+            if isinstance(other, int):
+                self.number_of_floor += other
+            else:
+                self.number_of_floor += other.number_of_floor
+            return self  # Для сохранения оригинального типа возвращаем оригинальный класс.
         else:
-            raise ValidationError('Значение должно быть целым числом')
+            raise ValidationError('Значение должно быть либо целым числом либо принадлежать классу House')
 
     def __iadd__(self, other):
-        if isinstance(other,int):
-            self.number_of_floor += other
-            return self # Для сохранения оригинального типа возвращаем оригинальный класс.
+        if isinstance(other, int | House):
+            return self.__add__(other)  # Метод __iadd__не обязательно описывать заново, достаточно
+            # вернуть значение вызова __add__.
         else:
-            raise ValidationError('Значение должно быть целым числом')
+            raise ValidationError('Значение должно быть либо целым числом либо принадлежать классу House')
 
     def __radd__(self, other):
-        if isinstance(other,int|House):
-            if isinstance(other,int):
-                self.number_of_floor+=other
-            else:
-                self.number_of_floor+=other.number_of_floor
-            return self # Для сохранения оригинального типа возвращаем оригинальный класс.
+        if isinstance(other, int | House):
+            return self.__add__(other)  # Метод __radd__ не обязательно описывать заново,
+            # достаточно вернуть значение вызова __add__.
         else:
             raise ValidationError('Значение должно быть либо целым числом либо принадлежать классу House')
 
@@ -137,3 +141,5 @@ try:
     print(h1 != h2)  # __ne__
 except ValidationError as e:
     print(e)
+
+print('\n=== Конец обработки === ')
