@@ -37,7 +37,7 @@ class House:
 
     def say_floor(self):  # Обработка спряжения слова этаж в зависимости от количества этажей
         if self.number_of_floor != 0:  # Если этажей не ноль
-            if self.number_of_floor // 10 == 1:  # Если число в диапазоне от 10 до 19
+            if 10 <= self.number_of_floor % 100< 20:  # Если число в диапазоне от 10 до 19
                 return f'{self.number_of_floor} этажей'
             else:  # Во всех других случаях - floor[последняя цифра]
                 return f'{self.number_of_floor} {self.floor[self.number_of_floor % 10]}'
@@ -56,7 +56,7 @@ class House:
 
 
 # === Прогон ===
-h1 = House('ЖК Горский', 18)
+h1 = House('ЖК Горский', 22)
 h2 = House('Домик в деревне', 2)
 h1.go_to(5)
 h2.go_to(10)
