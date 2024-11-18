@@ -32,12 +32,12 @@ class House:
         self.name = name  # создаем атрибут объекта наименование объекта
         self.number_of_floor = number_of_floor  # создаем атрибут число этажей
         self.floor = (
-        'этажей', 'этаж', *('этажа' for x in range(3)), *('этажей' for x in range(5)))  # спряжение слова этаж
+            'этажей', 'этаж', *('этажа' for x in range(3)), *('этажей' for x in range(5)))  # спряжение слова этаж
         self.say_info()  # Инфо строка активации класса
 
     def say_floor(self):  # Обработка спряжения слова этаж в зависимости от количества этажей
         if self.number_of_floor != 0:  # Если этажей не ноль
-            if 10 <= self.number_of_floor % 100< 20:  # Если число в диапазоне от 10 до 19
+            if 10 <= self.number_of_floor % 100 < 20:  # Если число в диапазоне от 10 до 19
                 return f'{self.number_of_floor} этажей'
             else:  # Во всех других случаях - floor[последняя цифра]
                 return f'{self.number_of_floor} {self.floor[self.number_of_floor % 10]}'
