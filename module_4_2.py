@@ -19,13 +19,10 @@ def test_function():
     inner_function()
 
 
-test_function()
+test_function()  # Вызываем функцию inner_function внутри функции test_function
 try:
-    inner_function()
+    inner_function()  # Пробуем вызывать inner_function вне функции test_function
 except NameError:
     print("\nОбнаружена ошибка в вызове функции inner_function() ")
 
-
 print('=== Конец обработки === ')
-
-
