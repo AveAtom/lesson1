@@ -29,40 +29,41 @@ class ValidationError(Exception):  # Для перехвата ошибок ко
 
 
 class House:
-    # ---- Start by create module_5_4.py ----------------------
+    # ---- Начало изменений по модулю module_5_4.py ----------------------
 
     houses_history = []  # Создаем атрибут который будет хранить названия созданных объектов.
     counter = 0  # Создаем атрибут экземпляров класса.
 
-    # ---- End module_5_4.py
+    # ---- Конец изменений по модулю module_5_4.py
     head = 1
-
-    # ---- Start by create module_5_4.py ----------------------
+    # ---- Начало изменений по модулю module_5_4.py ----------------------
 
     def __new__(cls, *args, **kwargs):  # Переопределяем метод __new__
         cls.houses_history.append(args[0])  # Добавляем в атрибут название созданного объекта (name)
         return object.__new__(cls)
 
-    # ---- End module_5_4.py
+    # ---- Конец изменений по модулю module_5_4.py
     def __init__(self, name='Пустырь', number_of_floor=0):
         self.name = name  # создаем атрибут объекта наименование объекта
         self.number_of_floor = number_of_floor  # создаем атрибут число этажей
         self.floor = (
             'этажей', 'этаж', *('этажа' for x in range(3)), *('этажей' for x in range(5)))  # спряжение слова этаж
         self.say_info()  # Инфо строка активации класса
-        # ---- Start by create module_5_4.py ----------------------
-        House.counter += 1  # Увеличиваем счетчик экземпляров класса.
-        # ---- End module_5_4.py
+        # ---- Начало изменений по модулю module_5_4.py ----------------------
 
-    # ---- Start by create module_5_2.py
+        House.counter += 1  # Увеличиваем счетчик экземпляров класса.
+
+        # ---- Конец изменений по модулю module_5_4.py
+
+    # ---- Начало изменений по модулю module_5_2.py
     def __str__(self):  # Возвращает строку: "Название: <название>, кол-во этажей: <этажи>".
         return f'Название: {self.name}, кол-во этажей: {self.number_of_floor}'
 
     def __len__(self):  # Возвращает кол-во этажей здания self.number_of_floors.
         return self.number_of_floor
 
-    # ---- End module_5_2.py --------------------------------------
-    # ---- Start by create module_5_3.py
+    # ---- Конец изменений по модулю module_5_2.py --------------------------------------
+    # ---- Начало изменений по модулю module_5_3.py
 
     def __eq__(self, other):  # ==
         if isinstance(other, House):
@@ -124,8 +125,8 @@ class House:
         else:
             raise ValidationError('Значение должно быть либо целым числом либо принадлежать классу House')
 
-    # ---- End module_5_3.py -------------------------
-    # ---- Start by create module_5_4.py ----------------------
+    # ---- Конец изменений по модулю module_5_3.py -------------------------
+    # ---- Начало изменений по модулю module_5_4.py ----------------------
 
     def __del__(self):  # Переопределяем метод удаления экземпляра
         print(f'{self.name} снесён, но он останется в истории.')
@@ -133,7 +134,7 @@ class House:
         if House.counter == 0:  # Если равен нулю - конец обработки
             print('\n=== Конец обработки === ')
 
-    # ---- End module_5_4.py
+    # ---- Конец изменений по модулю module_5_4.py
     def say_floor(self):  # Обработка спряжения слова этаж в зависимости от количества этажей
         if self.number_of_floor != 0:  # Если этажей не ноль
             if 10 <= self.number_of_floor % 100 < 20:  # Если число в диапазоне от 10 до 19
