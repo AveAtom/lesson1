@@ -168,7 +168,7 @@ class UrTube:
                     if res_user[0].age < 18:
                         print("Вам нет 18 лет, пожалуйста покиньте страницу.")
                     else:
-                        print(str(res_video[0]), end='')
+                        print(res_video[0], end='')
 
 
 class Video:  # Атрибуты: title(заголовок, строка), duration(продолжительность, секунды),
