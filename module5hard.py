@@ -87,7 +87,7 @@ class UrTube:
             elif other[0]==4: # Поиск User по nick и password
                 return [x.nickname for x in self.users if x.nickname == other[1] and x.password == other[2]]
             else:
-                raise ValidationError('Значение [0] должно быть либо 1 либо 2 либо 3')
+                raise ValidationError('Значение [0] должно быть либо 1 либо 2 либо 3 либо 4')
         else:
             raise ValidationError('Значения должны быть в формате [1|2|3,<строка поиска>]|[4,nickname,password]')
 
