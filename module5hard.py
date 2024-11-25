@@ -66,13 +66,16 @@ class UrTube:
         self.users = []  # Атрибуты: users(список объектов User),
         self.videos = []  # videos(список объектов Video),
         self.current_user = ""  # current_user(текущий пользователь, User)
-        # self.say_info()
+
 
     def __contains__(self, item):  # для проверки наличия видео с таким же названием (полное совпадение)
-        return True if len(["!" for x in self.videos if x.title == item]) != 0 else False
+        if isinstance(item, Video): # item принадлежит классу Video
+            return True if len(["!" for x in self.videos if x.title == item.title]) != 0 else False
+        elif isinstance(item,User): # item принадлежит классу User
+            return True if len(["!" for x in self.users if x.nickname == item.nickname]) != 0 else False
+        else:
+            raise ValidationError('Должны использоваться экземпляры классов User либо Video.')
 
-    def say_info(self):
-        print("UrlTube создан")
 
     def register(self, nickname="", password="", age=0):  # метод регистрации. Особенности - при регистрации нового
         # пользователя автоматически происходит вход в систему под данным пользователем.
@@ -82,12 +85,12 @@ class UrTube:
             raise ValidationError('Поле пароль должно быть заполнено.')
         if age == 0:
             raise ValidationError('Поле возраст не должно равняться 0.')
-        if len(["1" for x in self.users if x.nickname == nickname]) == 0:
-            user = User(nickname, password, age)
+        user = User(nickname, password, age)
+        if user in self: # Если такой пользователь уже существует (__contains__)
+            print(f'Пользователь {nickname} уже существует.')
+        else:
             self.users.append(user)
             self.current_user = nickname
-        else:
-            print(f'Пользователь {nickname} уже существует.')
         print(
             f'Количество зарегистрированных пользователей: {len(self.users)}. Текущий пользователь - {self.current_user}')
 
@@ -111,7 +114,7 @@ class UrTube:
         counter_before = len(self.videos)
         for video in list(args):
             if isinstance(video, Video):
-                if video.title in self:  # Проверка наличия видео с таким же именем (полное совпадение).
+                if video in self:  # Проверка наличия видео с таким же именем (полное совпадение) (__contains__).
                     pass
                 else:
                     self.videos.append(video)
