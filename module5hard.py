@@ -142,18 +142,13 @@ class UrTube:
             return []
         else:
             # res = [x.title for x in self.videos if x.title.lower().find(item.lower())!=-1]
-            res = (self == [3, item.lower()])  # Поиск названий по фрагменту через __eq__ (дичь).
-            if len(res) == 0:
-                # print("Видео не найдено!")
-                return []
-            else:
-                return res
+            return self == [3, item.lower()]  # Поиск названий по фрагменту через __eq__ (дичь).
+
 
     def watch_video(self, item=""):  # Просмотр видео по запросу.
         if item == "":  # Если запрос пустой - выход с сообщением.
             print("Название видео должно быть не пустым")
         else:
-            # res_video = [x for x in self.videos if x.title == item]  # отбираем объекты по строгому соответствию.
             res_video = (self == [1, item])  # Отбираем объекты по строгому соответствию используя __eq__ (дичь)
             if len(res_video) == 0:  # Если ничего не найдено - выход с сообщением.
                 print('Фильм не найден!')
@@ -161,8 +156,6 @@ class UrTube:
             if not self.current_user:  # Если пользователь не вошел в систему - выход с сообщением.
                 print('Войдите в аккаунт, чтобы смотреть видео.')
             else:
-                # res_user = [x for x in self.users if x.nickname == self.current_user]  # Находим атрибуты
-                # текущего пользователя.
                 if res_video[
                     0].adult_mode:  # Если стоит флаг только для взрослых - проверяем возраст текущего пользователя
                     if self.current_user.age < 18:
