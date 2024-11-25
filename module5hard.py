@@ -65,7 +65,7 @@ class UrTube:
     def __init__(self):
         self.users = []  # Атрибуты: users(список объектов User),
         self.videos = []  # videos(список объектов Video),
-        self.current_user = ""  # current_user(текущий пользователь, User)
+        self.current_user = None  # current_user(текущий пользователь, User)
 
     def __contains__(self, item):  # для проверки наличия видео (полное совпадение) и пользователя (Nickname)
         if isinstance(item, Video):  # item принадлежит классу Video
@@ -84,7 +84,7 @@ class UrTube:
             elif other[0] == 3:  # Поиск названий по фрагменту
                 return [x.title for x in self.videos if x.title.lower().find(other[1]) != -1]
             elif other[0] == 4:  # Поиск User по nick и password
-                return [x.nickname for x in self.users if x.nickname == other[1] and x.password == other[2]]
+                return [x for x in self.users if x.nickname == other[1] and x.password == other[2]]
             else:
                 raise ValidationError('Значение [0] должно быть либо 1 либо 2 либо 3 либо 4')
         else:
@@ -103,9 +103,9 @@ class UrTube:
             print(f'Пользователь {nickname} уже существует.')
         else:
             self.users.append(user)
-            self.current_user = nickname
+            self.current_user = user
         print(
-            f'Количество зарегистрированных пользователей: {len(self.users)}. Текущий пользователь - {self.current_user}')
+            f'Количество зарегистрированных пользователей: {len(self.users)}. Текущий пользователь - {self.current_user.nickname}')
 
     def log_out(self):  # Метод выхода пользователя из системы
         self.current_user = None
@@ -121,7 +121,7 @@ class UrTube:
             print('Введены неправильные значения имени или пароля пользователя.')
         else:
             self.current_user = res[0]
-            print(f'Вход в систему под именем: {res[0]}')
+            print(f'Вход в систему под именем: {res[0].nickname}')
 
     def add(self, *args):  # Метод добавление видео в объект UrTube()
         counter_before = len(self.videos)
@@ -161,11 +161,10 @@ class UrTube:
                 print('Войдите в аккаунт, чтобы смотреть видео.')
             else:
                 # res_user = [x for x in self.users if x.nickname == self.current_user]  # Находим атрибуты
-                res_user = (self == [2, self.current_user])  # Находим объект пользователь через __eq__ (дичь)
                 # текущего пользователя.
                 if res_video[
                     0].adult_mode:  # Если стоит флаг только для взрослых - проверяем возраст текущего пользователя
-                    if res_user[0].age < 18:
+                    if self.current_user.age < 18:
                         print("Вам нет 18 лет, пожалуйста покиньте страницу.")
                     else:
                         print(res_video[0], end='')
@@ -179,7 +178,7 @@ class Video:  # Атрибуты: title(заголовок, строка), durat
         if duration == 0:  # Проверка на нулевую длительность ролика.
             raise ValidationError('Поле продолжительность видео не должно быть равной 0.')
         self.title = title
-        self.time_now=0
+        self.time_now = 0
         self.duration = duration
         self.adult_mode = adult_mode
 
