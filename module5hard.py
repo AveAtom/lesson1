@@ -77,16 +77,17 @@ class UrTube:
 
     def __eq__(self, other=None):  # Это дичь. Я сложил сюда все типовые поисковые запросы
         if 1 < len(other) < 4:
-            if other[0] == 1:  # Поиск Video
-                return [x for x in self.videos if x.title == other[1]]
-            elif other[0] == 2:  # Поиск User по nick
-                return [x for x in self.users if x.nickname == other[1]]
-            elif other[0] == 3:  # Поиск названий по фрагменту
-                return [x.title for x in self.videos if x.title.lower().find(other[1]) != -1]
-            elif other[0] == 4:  # Поиск User по nick и password
-                return [x for x in self.users if x.nickname == other[1] and x.password == other[2]]
-            else:
-                raise ValidationError('Значение [0] должно быть либо 1 либо 2 либо 3 либо 4')
+            match other[0]:
+                case 1:  # Поиск Video
+                    return [x for x in self.videos if x.title == other[1]]
+                case 2:  # Поиск пользователя по имени
+                    return [x for x in self.users if x.nickname == other[1]]
+                case 3: # Поиск названий по фрагменту
+                    return [x.title for x in self.videos if x.title.lower().find(other[1]) != -1]
+                case 4:  # Поиск User по nick и password
+                    return [x for x in self.users if x.nickname == other[1] and x.password == other[2]]
+                case _:
+                    raise ValidationError('Значение [0] должно быть либо 1 либо 2 либо 3 либо 4')
         else:
             raise ValidationError('Значения должны быть в формате [1|2|3,<строка поиска>]|[4,nickname,password]')
 
