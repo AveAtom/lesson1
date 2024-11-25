@@ -179,6 +179,7 @@ class Video:  # Атрибуты: title(заголовок, строка), durat
         if duration == 0:  # Проверка на нулевую длительность ролика.
             raise ValidationError('Поле продолжительность видео не должно быть равной 0.')
         self.title = title
+        self.time_now=time_now
         self.duration = duration
         self.adult_mode = adult_mode
 
