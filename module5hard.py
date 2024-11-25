@@ -116,7 +116,7 @@ class UrTube:
             raise ValidationError('Поле логин должно быть заполнено.')
         if password == "":
             raise ValidationError('Поле пароль должно быть заполнено.')
-        # res = [x.nickname for x in self.users if x.nickname == nickname and x.password == get_md5_of_string(password)]
+
         res = (self == [4, nickname, get_md5_of_string(password)])  # Поиск пользователя через __eq__ (дичь)
         if len(res) == 0:
             print('Введены неправильные значения имени или пароля пользователя.')
@@ -141,7 +141,6 @@ class UrTube:
         if item == "":  # если фрагмент пусто - отправляем пустой список.
             return []
         else:
-            # res = [x.title for x in self.videos if x.title.lower().find(item.lower())!=-1]
             return self == [3, item.lower()]  # Поиск названий по фрагменту через __eq__ (дичь).
 
 
