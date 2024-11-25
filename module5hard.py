@@ -67,24 +67,23 @@ class UrTube:
         self.videos = []  # videos(список объектов Video),
         self.current_user = ""  # current_user(текущий пользователь, User)
 
-
     def __contains__(self, item):  # для проверки наличия видео (полное совпадение) и пользователя (Nickname)
-        if isinstance(item, Video): # item принадлежит классу Video
+        if isinstance(item, Video):  # item принадлежит классу Video
             return True if len(["!" for x in self.videos if x.title == item.title]) != 0 else False
-        elif isinstance(item,User): # item принадлежит классу User
+        elif isinstance(item, User):  # item принадлежит классу User
             return True if len(["!" for x in self.users if x.nickname == item.nickname]) != 0 else False
         else:
             raise ValidationError('Должны использоваться экземпляры классов User либо Video.')
 
-    def __eq__(self, other=[3]): # Это дичь. Я сложил сюда все типовые поисковые запросы
-        if 1<len(other)<4:
-            if other[0]==1: # Поиск Video
+    def __eq__(self, other=[3]):  # Это дичь. Я сложил сюда все типовые поисковые запросы
+        if 1 < len(other) < 4:
+            if other[0] == 1:  # Поиск Video
                 return [x for x in self.videos if x.title == other[1]]
-            elif other[0]==2: # Поиск User по nick
+            elif other[0] == 2:  # Поиск User по nick
                 return [x for x in self.users if x.nickname == other[1]]
-            elif other[0]==3: # Поиск названий по фрагменту
-                return [x.title for x in self.videos if x.title.lower().find(other[1])!=-1]
-            elif other[0]==4: # Поиск User по nick и password
+            elif other[0] == 3:  # Поиск названий по фрагменту
+                return [x.title for x in self.videos if x.title.lower().find(other[1]) != -1]
+            elif other[0] == 4:  # Поиск User по nick и password
                 return [x.nickname for x in self.users if x.nickname == other[1] and x.password == other[2]]
             else:
                 raise ValidationError('Значение [0] должно быть либо 1 либо 2 либо 3 либо 4')
@@ -100,7 +99,7 @@ class UrTube:
         if age == 0:
             raise ValidationError('Поле возраст не должно равняться 0.')
         user = User(nickname, password, age)
-        if user in self: # Если такой пользователь уже существует (__contains__)
+        if user in self:  # Если такой пользователь уже существует (__contains__)
             print(f'Пользователь {nickname} уже существует.')
         else:
             self.users.append(user)
@@ -116,8 +115,8 @@ class UrTube:
             raise ValidationError('Поле логин должно быть заполнено.')
         if password == "":
             raise ValidationError('Поле пароль должно быть заполнено.')
-        #res = [x.nickname for x in self.users if x.nickname == nickname and x.password == get_md5_of_string(password)]
-        res = (self == [4,nickname,get_md5_of_string(password)]) # Поиск пользователя через __eq__ (дичь)
+        # res = [x.nickname for x in self.users if x.nickname == nickname and x.password == get_md5_of_string(password)]
+        res = (self == [4, nickname, get_md5_of_string(password)])  # Поиск пользователя через __eq__ (дичь)
         if len(res) == 0:
             print('Введены неправильные значения имени или пароля пользователя.')
         else:
@@ -141,10 +140,10 @@ class UrTube:
         if item == "":  # если фрагмент пусто - отправляем пустой список.
             return []
         else:
-            #res = [x.title for x in self.videos if x.title.lower().find(item.lower())!=-1]
-            res = (self==[3,item.lower()]) # Поиск названий по фрагменту через __eq__ (дичь).
+            # res = [x.title for x in self.videos if x.title.lower().find(item.lower())!=-1]
+            res = (self == [3, item.lower()])  # Поиск названий по фрагменту через __eq__ (дичь).
             if len(res) == 0:
-                #print("Видео не найдено!")
+                # print("Видео не найдено!")
                 return []
             else:
                 return res
@@ -153,23 +152,24 @@ class UrTube:
         if item == "":  # Если запрос пустой - выход с сообщением.
             print("Название видео должно быть не пустым")
         else:
-            #res_video = [x for x in self.videos if x.title == item]  # отбираем объекты по строгому соответствию.
-            res_video = (self==[1,item]) # Отбираем объекты по строгому соответствию используя __eq__ (дичь)
+            # res_video = [x for x in self.videos if x.title == item]  # отбираем объекты по строгому соответствию.
+            res_video = (self == [1, item])  # Отбираем объекты по строгому соответствию используя __eq__ (дичь)
             if len(res_video) == 0:  # Если ничего не найдено - выход с сообщением.
                 print('Фильм не найден!')
                 return
             if not self.current_user:  # Если пользователь не вошел в систему - выход с сообщением.
                 print('Войдите в аккаунт, чтобы смотреть видео.')
             else:
-                #res_user = [x for x in self.users if x.nickname == self.current_user]  # Находим атрибуты
-                res_user = (self==[2,self.current_user]) # Находим объект пользователь через __eq__ (дичь)
+                # res_user = [x for x in self.users if x.nickname == self.current_user]  # Находим атрибуты
+                res_user = (self == [2, self.current_user])  # Находим объект пользователь через __eq__ (дичь)
                 # текущего пользователя.
                 if res_video[
                     0].adult_mode:  # Если стоит флаг только для взрослых - проверяем возраст текущего пользователя
                     if res_user[0].age < 18:
                         print("Вам нет 18 лет, пожалуйста покиньте страницу.")
                     else:
-                        print(str(res_video[0]),end='')
+                        print(str(res_video[0]), end='')
+
 
 class Video:  # Атрибуты: title(заголовок, строка), duration(продолжительность, секунды),
     # time_now(секунда остановки (изначально 0))
@@ -182,7 +182,7 @@ class Video:  # Атрибуты: title(заголовок, строка), durat
         self.duration = duration
         self.adult_mode = adult_mode
 
-    def __str__(self): # Проигрывание видео
+    def __str__(self):  # Проигрывание видео
         for i in range(1, self.duration + 1):  # Если проигрывать можно - проигрываем ролик.
             print(f'{i} ', end='')
             sleep(1)
