@@ -82,7 +82,7 @@ class UrTube:
                 return [x for x in self.videos if x.title == other[1]]
             elif other[0]==2: # Поиск User по nick
                 return [x for x in self.users if x.nickname == other[1]]
-            elif other[0]==3:
+            elif other[0]==3: # Поиск названий по фрагменту
                 return [x.title for x in self.videos if x.title.lower().find(other[1])!=-1]
             elif other[0]==4: # Поиск User по nick и password
                 return [x.nickname for x in self.users if x.nickname == other[1] and x.password == other[2]]
