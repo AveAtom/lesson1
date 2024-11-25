@@ -68,14 +68,13 @@ class UrTube:
         self.current_user = ""  # current_user(текущий пользователь, User)
 
 
-    def __contains__(self, item):  # для проверки наличия видео с таким же названием (полное совпадение)
+    def __contains__(self, item):  # для проверки наличия видео (полное совпадение) и пользователя (Nickname)
         if isinstance(item, Video): # item принадлежит классу Video
             return True if len(["!" for x in self.videos if x.title == item.title]) != 0 else False
         elif isinstance(item,User): # item принадлежит классу User
             return True if len(["!" for x in self.users if x.nickname == item.nickname]) != 0 else False
         else:
             raise ValidationError('Должны использоваться экземпляры классов User либо Video.')
-
 
     def register(self, nickname="", password="", age=0):  # метод регистрации. Особенности - при регистрации нового
         # пользователя автоматически происходит вход в систему под данным пользователем.
@@ -153,11 +152,7 @@ class UrTube:
                     if res_user[0].age < 18:
                         print("Вам нет 18 лет, пожалуйста покиньте страницу.")
                     else:
-                        for i in range(1, res_video[0].duration + 1):  # Если проигрывать можно - проигрываем ролик.
-                            print(f'{i} ', end='')
-                            sleep(1)
-                        print('Конец видео')
-
+                        print(str(res_video[0]),end='')
 
 class Video:  # Атрибуты: title(заголовок, строка), duration(продолжительность, секунды),
     # time_now(секунда остановки (изначально 0))
@@ -169,6 +164,13 @@ class Video:  # Атрибуты: title(заголовок, строка), durat
         self.title = title
         self.duration = duration
         self.adult_mode = adult_mode
+
+    def __str__(self): # Проигрывание видео
+        for i in range(1, self.duration + 1):  # Если проигрывать можно - проигрываем ролик.
+            print(f'{i} ', end='')
+            sleep(1)
+        print('Конец видео')
+        return ""
 
 
 class User:  # Атрибуты: nickname(имя пользователя, строка), password(в хэшированном виде, число), age(возраст, число)
