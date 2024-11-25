@@ -75,7 +75,7 @@ class UrTube:
         else:
             raise ValidationError('Должны использоваться экземпляры классов User либо Video.')
 
-    def __eq__(self, other=[3]):  # Это дичь. Я сложил сюда все типовые поисковые запросы
+    def __eq__(self, other=None):  # Это дичь. Я сложил сюда все типовые поисковые запросы
         if 1 < len(other) < 4:
             if other[0] == 1:  # Поиск Video
                 return [x for x in self.videos if x.title == other[1]]
