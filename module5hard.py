@@ -76,6 +76,21 @@ class UrTube:
         else:
             raise ValidationError('Должны использоваться экземпляры классов User либо Video.')
 
+    def __eq__(self, other=[3]): # Это дичь. Я сложил сюда все типовые поисковые запросы
+        if 1<len(other)<4:
+            if other[0]==1: # Поиск Video
+                return [x for x in self.videos if x.title == other[1]]
+            elif other[0]==2: # Поиск User по nick
+                return [x for x in self.users if x.nickname == other[1]]
+            elif other[0]==3:
+                return [x.title for x in self.videos if x.title.lower().find(other[1])!=-1]
+            elif other[0]==4: # Поиск User по nick и password
+                return [x.nickname for x in self.users if x.nickname == other[1] and x.password == other[2]]
+            else:
+                raise ValidationError('Значение [0] должно быть либо 1 либо 2 либо 3')
+        else:
+            raise ValidationError('Значения должны быть в формате [1|2|3,<строка поиска>]|[4,nickname,password]')
+
     def register(self, nickname="", password="", age=0):  # метод регистрации. Особенности - при регистрации нового
         # пользователя автоматически происходит вход в систему под данным пользователем.
         if nickname == "":
@@ -101,8 +116,8 @@ class UrTube:
             raise ValidationError('Поле логин должно быть заполнено.')
         if password == "":
             raise ValidationError('Поле пароль должно быть заполнено.')
-        res = [x.nickname for x in self.users if x.nickname == nickname and x.password == get_md5_of_string(password)]
-
+        #res = [x.nickname for x in self.users if x.nickname == nickname and x.password == get_md5_of_string(password)]
+        res = (self == [4,nickname,get_md5_of_string(password)]) # Поиск пользователя через __eq__ (дичь)
         if len(res) == 0:
             print('Введены неправильные значения имени или пароля пользователя.')
         else:
@@ -126,7 +141,8 @@ class UrTube:
         if item == "":  # если фрагмент пусто - отправляем пустой список.
             return []
         else:
-            res = [x.title for x in self.videos if x.title.lower().find(item.lower())!=-1]
+            #res = [x.title for x in self.videos if x.title.lower().find(item.lower())!=-1]
+            res = (self==[3,item.lower()]) # Поиск названий по фрагменту через __eq__ (дичь).
             if len(res) == 0:
                 #print("Видео не найдено!")
                 return []
@@ -137,15 +153,16 @@ class UrTube:
         if item == "":  # Если запрос пустой - выход с сообщением.
             print("Название видео должно быть не пустым")
         else:
-            res_video = [x for x in self.videos if x.title == item]  # отбираем объекты по строгому соответствию.
-            # print(res_video,self.current_user)
+            #res_video = [x for x in self.videos if x.title == item]  # отбираем объекты по строгому соответствию.
+            res_video = (self==[1,item]) # Отбираем объекты по строгому соответствию используя __eq__ (дичь)
             if len(res_video) == 0:  # Если ничего не найдено - выход с сообщением.
                 print('Фильм не найден!')
                 return
             if not self.current_user:  # Если пользователь не вошел в систему - выход с сообщением.
                 print('Войдите в аккаунт, чтобы смотреть видео.')
             else:
-                res_user = [x for x in self.users if x.nickname == self.current_user]  # Находим атрибуты
+                #res_user = [x for x in self.users if x.nickname == self.current_user]  # Находим атрибуты
+                res_user = (self==[2,self.current_user]) # Находим объект пользователь через __eq__ (дичь)
                 # текущего пользователя.
                 if res_video[
                     0].adult_mode:  # Если стоит флаг только для взрослых - проверяем возраст текущего пользователя
