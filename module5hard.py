@@ -173,13 +173,13 @@ class UrTube:
 
 class Video:  # Атрибуты: title(заголовок, строка), duration(продолжительность, секунды),
     # time_now(секунда остановки (изначально 0))
-    def __init__(self, title="", duration=0, time_now=0, adult_mode=False):
+    def __init__(self, title="", duration=0, adult_mode=False):
         if title == "":  # Проверка на пустой заголовок.
             raise ValidationError('Поле заголовок видео должно быть заполнено.')
         if duration == 0:  # Проверка на нулевую длительность ролика.
             raise ValidationError('Поле продолжительность видео не должно быть равной 0.')
         self.title = title
-        self.time_now=time_now
+        self.time_now=0
         self.duration = duration
         self.adult_mode = adult_mode
 
