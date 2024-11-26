@@ -96,6 +96,7 @@ class Sedan(Vehicle):
     __PASSENGERS_LIMIT = 5  # В седан может поместиться только 5 пассажиров
 
     def __init__(self, owner, model, color, power):
+        super().__init__()
         self.owner = owner
         self.set_model(model)
         self.set_power(power)
