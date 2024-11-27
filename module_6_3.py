@@ -54,17 +54,19 @@ print("=== Доступ к свойствам родителя. Переопре
 class Animal:  # Класс описывающий животных.
     live = True  # Живой (Да/нет).
     sound = None  # Звук (изначально отсутствует).
+    descr = ""  # Краткое описание
     _DEGREE_OF_DANGER = 0  # Степень опасности существа.
-    danger = []
+    dangers_cls = {}  # собираем значения _DEGREE_OF_DANGER со всех классов, которые наследуют данный класс
 
     def __init_subclass__(cls, **kwargs):  # для определения списка _DEGREE_OF_DANGER из каждого класса собираем
-        # все значения данного атрибут из всех классов в атрибут danger.
+        # значения данного атрибута в словарь danger_cls в формате cls.__name__:cls._DEGREE_OF_DANGER.
         super().__init_subclass__(**kwargs)
-        Animal.danger.append(cls._DEGREE_OF_DANGER)
+        Animal.dangers_cls.update({cls.__name__: cls._DEGREE_OF_DANGER})
 
     def __init__(self, speed):
         self._cords = [0, 0, 0]
         self.speed = speed
+        self.danger = []
 
     def move(self, dx=0, dy=0, dz=0, dive=False):  # Меняет соответствующие координаты в _cords на dx, dy и dz
         # в том же порядке, где множителем будет является speed.
@@ -81,14 +83,15 @@ class Animal:  # Класс описывающий животных.
 
     def attack(self):  # выводит "Sorry, i'm peaceful :)", если степень опасности меньше 5 и
         # "Be careful, i'm attacking you 0_0" , если равно или больше.
-        max_danger = max(Animal.danger)  # Берем макс значения из списка Animal.danger
+        # print(self.danger)
+        max_danger = max(self.danger)  # Берем макс значения из списка Animal.danger
         if max_danger > 4:
-            print("Be careful, i'm attacking you 0_0")
+            print(f"{self.descr}-атакует: Be careful, i'm attacking you 0_0")
         else:
-            print("Sorry, i'm peaceful :)")
+            print(f"{self.descr}-атакует: Sorry, i'm peaceful :)")
 
     def speak(self):  # Выводит строку со звуком sound.
-        print(f'Звук существа - {self.sound}')
+        print(f'Звук существа {self.descr} - {self.sound}')
 
 
 class Bird(Animal):  # Класс описывающий птиц. Наследуется от Animal.
@@ -113,26 +116,56 @@ class PoisonousAnimal(Animal):  # Класс описывающий ядовит
     _DEGREE_OF_DANGER = 8
 
 
-class Duckbill(Bird, AquaticAnimal, PoisonousAnimal):  # класс описывающий утконоса. Наследуется от классов
+class Duckbill(Bird, AquaticAnimal, PoisonousAnimal):  # Класс описывающий утконоса. Наследуется от классов
     # Bird, AquaticAnimal, PoisonousAnimal.
+    dangers = []  # Список названий подчиненных классов.
+
+    def __new__(cls, *args, **kwargs):
+        cls.dangers = [x.__name__ for x in cls.mro()]  # Собираем в список dangers наименования всех классов с которыми
+        # связан данный класс.
+        return object.__new__(cls)
 
     def __init__(self, speed):
         super().__init__(speed)
         self.speed = speed
-        Animal.sound = 'Click-click-click'
-        self.subclasses = ""
+        self.danger = [self.dangers_cls[x] for x in self.dangers if x in self.dangers_cls]  # Собираем список опасностей
+        # из подчиненных классов.
+        self.sound = 'Click-click-click'
+        self.descr = 'Утконос'
+
+
+class AquaBird(Bird, AquaticAnimal):  # Для теста собираем водоплавающую птицу (утку)
+    dangers = []  # Список названий подчиненных классов.
+
+    def __new__(cls, *args, **kwargs):
+        cls.dangers = [x.__name__ for x in cls.mro()]  # Собираем в список dangers наименования всех классов с которыми
+        # связан данный класс.
+        return object.__new__(cls)
+
+    def __init__(self, speed):
+        super().__init__(speed)
+        self.speed = speed
+        self.danger = [self.dangers_cls[x] for x in self.dangers if x in self.dangers_cls]  # Собираем список опасностей
+        # из подчиненных классов.
+        self.sound = 'Kryak-Kryak-Kryak'
+        self.descr = 'Утка'
 
 
 # === Прогон ===
-db = Duckbill(10)
-
-print(Duckbill.mro())  # Наследование
-print(db.__dict__)  # Атрибуты
-
+db = Duckbill(10)  # утконос
+duck = AquaBird(100)  # утка
+print(Duckbill.mro())  # Наследование утконоса
+print(AquaBird.mro())  # Наследование утки
+print(db.__dict__)  # Атрибуты утконоса
+print(duck.__dict__)  # Атрибуты утконоса
+print('=== Прогон ===')
 print(db.live)
 print(db.beak)
 db.speak()
-db.attack()
+duck.speak()
+db.attack()  # Тест атаки для утконоса
+duck.attack()  # Тест атаки для утки
+print(f'=== Прогон {db.descr} ===')
 db.move(1, 2, 3)
 db.get_cords()
 db.dive_in(6)
