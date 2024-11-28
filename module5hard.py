@@ -69,9 +69,9 @@ class UrTube:
 
     def __contains__(self, item):  # для проверки наличия видео (полное совпадение) и пользователя (Nickname)
         if isinstance(item, Video):  # item принадлежит классу Video
-            return True if len(["!" for x in self.videos if x.title == item.title]) != 0 else False
+            return True if any(["!" for x in self.videos if x.title == item.title]) else False
         elif isinstance(item, User):  # item принадлежит классу User
-            return True if len(["!" for x in self.users if x.nickname == item.nickname]) != 0 else False
+            return True if any(["!" for x in self.users if x.nickname == item.nickname]) else False
         else:
             raise ValidationError('Должны использоваться экземпляры классов User либо Video.')
 
