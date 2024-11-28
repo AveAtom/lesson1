@@ -51,11 +51,11 @@ class ValidationError(Exception):  # Для перехвата ошибок пе
 class Vehicle:
     __COLOR_VARIANTS = ['blue', 'red', 'green', 'black', 'white']
 
-    def __init__(self, owner=""):
+    def __init__(self,owner, model, color, power):
         self.owner = owner  # владелец транспорта. (владелец может меняться)
-        self.__model = ""  # модель (марка) транспорта. (мы не можем менять название модели)
-        self.__engine_power = 0  # мощность двигателя. (мы не можем менять мощность двигателя самостоятельно)
-        self.__color = ""  # название цвета. (мы не можем менять цвет автомобиля своими руками)
+        self.__model = model  # модель (марка) транспорта. (мы не можем менять название модели)
+        self.__engine_power = power  # мощность двигателя. (мы не можем менять мощность двигателя самостоятельно)
+        self.__color = color  # название цвета. (мы не можем менять цвет автомобиля своими руками)
 
     # Для записи данных в закрытые атрибуты используем отдельные методы set_
     def set_model(self, model):
@@ -95,12 +95,12 @@ class Vehicle:
 class Sedan(Vehicle):
     __PASSENGERS_LIMIT = 5  # В седан может поместиться только 5 пассажиров
 
-    def __init__(self, owner, model, color, power):
-        super().__init__()
-        self.owner = owner
-        self.set_model(model)
-        self.set_power(power)
-        self.set_color(color)
+    # def __init__(self,owner, model, color, power):
+    #     super().__init__(owner)
+    #     self.owner = owner
+    #     self.set_model(model)
+    #     self.set_power(power)
+    #     self.set_color(color)
 
 
 # === Прогон ===
