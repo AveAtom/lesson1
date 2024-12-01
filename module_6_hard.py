@@ -67,6 +67,7 @@ print('=== Дополнительное практическое задание 
 # - Не стал вводить дополнительные проверки - старался придерживаться только ограничений ТЗ.
 # - Добавил проверку для треугольника: если сумма двух меньших сторон должна быть больше большей стороны - ошибка.
 #   Если не проверять - площадь треугольника считается с ошибкой.
+# - Подменил метод __str__ для вывода имени экземпляра объекта.
 # Классы
 class Figure:
     sides_count = 0  # Количество сторон
@@ -75,6 +76,7 @@ class Figure:
         self.__sides = []  # Список сторон (целые числа).
         self.__color = []  # Cписок цветов в формате RGB
         self.filled = False  # Закрашенный, bool
+
 
     def get_color(self):  # Возвращает список RGB цветов.
         return self.__color
@@ -106,6 +108,10 @@ class Figure:
         else:
             return int(sum([x for x in self.__sides]))  # Во всех остальных случаях периметр - сумма всех сторон.
 
+    def __str__(self):
+        return str(*[key for key, value in globals().items() if value == self]) # Ищем имя экземпляра объекта
+                                                                                # через globals()
+
     def set_sides(self, *new_sides):  # Занесение данных по сторонам объектов.
         if isinstance(self, Cube) and len([*new_sides]) == 1:  # Если куб и передаваемое значение одно, то
             new_sides = tuple(
@@ -127,10 +133,10 @@ class Circle(Figure):  # Класс круг.
         self.set_color(color[0], color[1], color[2])  # Установка цвета.
         self.set_sides(*args)  # Установка сторон объекта.
         self.__radius = self.get_sides()[0]  # Установка радиуса.
+        self.name = [key for key, value in globals().items() if value == self]
 
     def get_square(self):  # Площадь круга.
         return round(pi * self.__radius ** 2, 2)
-
 
 class Triangle(Figure):  # Класс треугольник.
     sides_count = 3  # Количество сторон.
@@ -139,13 +145,13 @@ class Triangle(Figure):  # Класс треугольник.
         super().__init__()
         self.set_color(color[0], color[1], color[2])  # Установка цвета.
         self.set_sides(*args)  # Установка сторон объекта.
+        self.name = [key for key, value in globals().items() if value == self]
 
     def get_square(self):  # Площадь треугольника.
         pp = len(self) / 2  # Полу-периметр.
         sides = self.get_sides()  # Установка сторон объекта.
         # print('Triangle - ',sides,pp)
         return round(sqrt(pp * (pp - sides[0]) * (pp - sides[1]) * (pp - sides[2])), 2)
-
 
 class Cube(Figure):  # Класс куб.
     sides_count = 12  # Количество сторон.
@@ -164,16 +170,17 @@ class Cube(Figure):  # Класс куб.
 triangle1 = Triangle((200, 200, 100), 8, 6, 3)
 # cube1 = Cube((200, 200, 100), 9)
 cube2 = Cube((200, 200, 100), 9, 12)
-
-print(triangle1.__dict__)
-print(cube2.__dict__)
+print(triangle1,triangle1.__class__.__name__,triangle1.__dict__)
+print(cube2,cube2.__class__.__name__,cube2.__dict__)
 
 # Код для проверки:
 circle1 = Circle((200, 200, 100), 10)  # (Цвет, стороны)
 cube1 = Cube((222, 35, 130), 6)
-print(circle1.__dict__)
-print(cube1.__dict__)
 
+print(circle1,circle1.__class__.__name__,circle1.__dict__)
+print(cube1,cube1.__class__.__name__,cube1.__dict__)
+#print([key for key,value in globals().items() if isinstance(value,Triangle|Circle|Cube)])
+print('=== Прогон ===')
 # Проверка на изменение цветов:
 circle1.set_color(55, 66, 77)  # Изменится
 print(circle1.get_color())
@@ -185,14 +192,14 @@ print(cube1.get_sides())
 circle1.set_sides(15)  # Изменится
 print(circle1.get_sides())
 # Проверка периметра (треугольника), это и есть длина:
-print(f'Периметр треугольника -  {len(triangle1)}')
+print(f'Периметр треугольника {triangle1} -  {len(triangle1)}')
 # Проверка площади (треугольника), это и есть длина:
-print(f'Площадь треугольника - {triangle1.get_square()}')
+print(f'Площадь треугольника {triangle1} - {triangle1.get_square()}')
 # Проверка периметра (круга), это и есть длина:
-print(f'Периметр круга - {len(circle1)}')
+print(f'Периметр круга {circle1} - {len(circle1)}')
 # Проверка площади (круга):
-print(f'Площадь круга - {circle1.get_square()}')
+print(f'Площадь круга {circle1} - {circle1.get_square()}')
 # Проверка объёма (куба):
-print(f'Объем куба - {cube1.get_volume()}')
+print(f'Объем куба {cube1} - {cube1.get_volume()}')
 
 print('\n=== Конец обработки === ')
