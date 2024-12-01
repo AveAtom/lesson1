@@ -71,7 +71,7 @@ print('=== Дополнительное практическое задание 
 # Классы
 class Figure:
     sides_count = 0  # Количество сторон
-
+    INFO = "фигуры"
     def __init__(self):
         self.__sides = []  # Список сторон (целые числа).
         self.__color = []  # Cписок цветов в формате RGB
@@ -126,7 +126,7 @@ class Figure:
 
 class Circle(Figure):  # Класс круг.
     sides_count = 1  # Количество сторон.
-
+    INFO = 'круга'
     def __init__(self, color, *args):
         super().__init__()
         # print('cls args',*args)
@@ -140,7 +140,7 @@ class Circle(Figure):  # Класс круг.
 
 class Triangle(Figure):  # Класс треугольник.
     sides_count = 3  # Количество сторон.
-
+    INFO = "треугольника"
     def __init__(self, color, *args):
         super().__init__()
         self.set_color(color[0], color[1], color[2])  # Установка цвета.
@@ -155,7 +155,7 @@ class Triangle(Figure):  # Класс треугольник.
 
 class Cube(Figure):  # Класс куб.
     sides_count = 12  # Количество сторон.
-
+    INFO = "куба"
     def __init__(self, color, *args):
         super().__init__()
         self.set_color(color[0], color[1], color[2])  # Установка цвета.
@@ -192,14 +192,14 @@ print(cube1.get_sides())
 circle1.set_sides(15)  # Изменится
 print(circle1.get_sides())
 # Проверка периметра (треугольника), это и есть длина:
-print(f'Периметр треугольника {triangle1} -  {len(triangle1)}')
+print(f'Периметр {triangle1.INFO} {triangle1} -  {len(triangle1)}')
 # Проверка площади (треугольника), это и есть длина:
-print(f'Площадь треугольника {triangle1} - {triangle1.get_square()}')
+print(f'Площадь {triangle1.INFO} {triangle1} - {triangle1.get_square()}')
 # Проверка периметра (круга), это и есть длина:
-print(f'Периметр круга {circle1} - {len(circle1)}')
+print(f'Периметр {circle1.INFO} {circle1} - {len(circle1)}')
 # Проверка площади (круга):
-print(f'Площадь круга {circle1} - {circle1.get_square()}')
+print(f'Площадь {circle1.INFO} {circle1} - {circle1.get_square()}')
 # Проверка объёма (куба):
-print(f'Объем куба {cube1} - {cube1.get_volume()}')
+print(f'Объем {cube1.INFO} {cube1} - {cube1.get_volume()}')
 
 print('\n=== Конец обработки === ')
