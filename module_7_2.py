@@ -1,4 +1,3 @@
-from pprint import pprint
 
 print("=== Позиционирование в файле. ====\n")
 
