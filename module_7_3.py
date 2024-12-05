@@ -78,8 +78,8 @@ class WordsFinder:
                       encoding='utf-8') as curr_file:  # Открываем файл на чтение. Курсор файла на нуле.
                 list_file = curr_file.read().split('\n')  # Переводим построчно содержимое файла в список list_file
                 # Чистим от шелухи и создаем промежуточный список res.
-                dump = [res := res + sub(r' - ', '', sub(r'[,.=!?;:]+', '', x.lower())).split(' ') for x in list_file]
-                res = [x for x in res if x != '']  # Чистим от пустых элементов в списке после отшелушивания.
+                clear_list = lambda dirt_list: [x for x in dirt_list if x !=''] # Чистим от пустых элементов в списке после отшелушивания.
+                dump = [res := res + clear_list(sub(r' - ', '', sub(r'[,.=!?;:]+', '', x.lower())).split(' ')) for x in list_file]
             all_words.update({str(file): res})  # Формируем итоговый словарик.
         return all_words
 
