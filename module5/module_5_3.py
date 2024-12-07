@@ -24,20 +24,21 @@ class ValidationError(Exception):  # Для перехвата ошибок ко
 
 
 class House:
+    head = 1
     def __init__(self, name='Пустырь', number_of_floor=0):
         self.name = name  # создаем атрибут объекта наименование объекта
         self.number_of_floor = number_of_floor  # создаем атрибут число этажей
         self.floor = (
             'этажей', 'этаж', *('этажа' for x in range(3)), *('этажей' for x in range(5)))  # спряжение слова этаж
         self.say_info()  # Инфо строка активации класса
-
+    # ---- Start by create module_5_2.py
     def __str__(self):  # Возвращает строку: "Название: <название>, кол-во этажей: <этажи>".
         return f'Название: {self.name}, кол-во этажей: {self.number_of_floor}'
 
     def __len__(self):  # Возвращает кол-во этажей здания self.number_of_floors.
         return self.number_of_floor
-
-    # ----Дополнение к текущей задаче
+    # ---- End module_5_2.py --------------------------------------
+    # ---- Start by create module_5_3.py
 
     def __eq__(self, other):  # ==
         if isinstance(other, House):
@@ -99,7 +100,7 @@ class House:
         else:
             raise ValidationError('Значение должно быть либо целым числом либо принадлежать классу House')
 
-    # -------------------------------------------------------------------------------------------------
+    # ---- End module_5_3.py -------------------------
     def say_floor(self):  # Обработка спряжения слова этаж в зависимости от количества этажей
         if self.number_of_floor != 0:  # Если этажей не ноль
             if 10 <= self.number_of_floor % 100 < 20:  # Если число в диапазоне от 10 до 19
@@ -125,6 +126,15 @@ h1 = House('ЖК Эльбрус', 10)
 h2 = House('ЖК Акация', 20)
 print(h1)
 print(h2)
+print(h1.head)
+h1.head1='123'
+print(h1.head1)
+print(f'id head={id(h1.head)}')
+#h1.head=4
+print(f'id head={id(h1.head)}')
+House.head=3
+print(h1.head)
+
 try:
     print(h1 == h2)  # __eq__
     h1 = h1 + 10  # __add__
