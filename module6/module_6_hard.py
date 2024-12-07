@@ -106,7 +106,7 @@ class Figure:
             # print('p=',round(float(2*pi*self.__sides[0]),2))
             return int(2 * pi * self.__sides[0])
         else:
-            return int(sum([x for x in self.__sides]))  # Во всех остальных случаях периметр - сумма всех сторон.
+            return int(sum(self.__sides))  # Во всех остальных случаях периметр - сумма всех сторон.
 
     def __str__(self):
         return str(*[key for key, value in globals().items() if value == self]) # Ищем имя экземпляра объекта
@@ -158,8 +158,9 @@ class Cube(Figure):  # Класс куб.
     INFO = "куба"
     def __init__(self, color, *args):
         super().__init__()
-        self.set_color(color[0], color[1], color[2])  # Установка цвета.
-        self.set_sides(*args)  # Установка сторон объекта.
+        self.set_color(color[0], color[1], color[2])  # Установка цвета. color:tuple[int,int,int]
+
+        self.set_sides(*args)  # Установка сторон объекта. cube_sides = [side]*12
 
     def get_volume(self):  # Объем куба.
         return self.get_sides()[0] ** 3
