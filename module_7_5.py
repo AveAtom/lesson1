@@ -44,7 +44,7 @@ for root, dirs, files in walk(directory):
         filetime = getmtime(file)  # Время изменения файла.
         formatted_time = strftime("%d.%m.%Y %H:%M",
                                   localtime(filetime))  # Отформатированное значение времени изменения файла.
-        filesize = getsize(file)  # Рвзмер файла.
+        filesize = getsize(file)  # Размер файла.
         parent_dir = dirname(filepath)  # Директория расположения файла.
         print(f'Обнаружен файл: {file}, Путь: {filepath}, Размер: {filesize} байт, Время изменения: {formatted_time},'
               f' Родительская директория: {parent_dir}')
