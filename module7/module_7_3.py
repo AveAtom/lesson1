@@ -47,7 +47,7 @@ class ValidationError(Exception):  # Для перехвата ошибок пе
 
 
 class WordsFinder:
-    __PATH = "./files/"  # Папка, где находятся исходные файлы.
+    __PATH = "../files/"  # Папка, где находятся исходные файлы.
 
     def __new__(cls, *args, **kwargs):  # Проверка на наличие файла.
         list_files = [f for f in listdir(cls.__PATH) if

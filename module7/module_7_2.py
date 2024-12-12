@@ -59,7 +59,7 @@ info = [
 
 # result = custom_write('test.txt')
 # result = custom_write()
-result = custom_write('test.txt', info)
+result = custom_write('../test.txt', info)
 # print (result)
 for elem in result.items():
     print(elem)

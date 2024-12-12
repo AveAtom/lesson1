@@ -37,7 +37,7 @@ class Product:  # Продукты - Product('Potato', 50.0, 'Vagetables')
 
 
 class Shop:  # Магазин
-    __file_name = 'products.txt'  # Инкапсулированный атрибут __file_name = 'products.txt'.
+    __file_name = '../products.txt'  # Инкапсулированный атрибут __file_name = 'products.txt'.
 
     def init_file(self):  # Метод затирки файла ( >file )
         file = open(self.__file_name, 'w')
