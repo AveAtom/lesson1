@@ -28,7 +28,7 @@ def calculate_average(numbers): # Должна принимать коллекц
                                 # (отбрасывая элементы с ошибочными значениями).
     def personal_sum(numbers):  # Должна принимать коллекцию numbers
         incorrect_data = 0
-        result = 0.0
+        result=0.0
         numbers = [*numbers]  # Преобразовываем входящие данные в список
         for number in numbers:
             try:  # Засовываем проверку внутрь for (иначе не работает). Если использовать конструкцию sum([number for number in numbers])
