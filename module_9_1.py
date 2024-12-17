@@ -44,7 +44,7 @@ def check_list(int_list: list, func_name: str):
         nonlocal func_name  # Наводимся на переменную функции check_list
         try:
             if not isinstance(number, int | float):
-                raise IncorrectListElementType(f'Неправильный тип элемента для функции {func_name} ', element)
+                raise IncorrectListElementType(f'Неправильный тип элемента списка для функции {func_name} ', element)
             else:
                 return number  # Штатный возврат.
         except IncorrectListElementType as exc:
@@ -71,7 +71,7 @@ def apply_all_func(int_list, *functions): # Функция высшего пор
 
 # === Прогон ===
 err_count = 0  # Определяем переменную.
-print(apply_all_func([6, 20, 15, 9], max, min), end='')
+print(apply_all_func([6, 20, 'l',15, 9], max, min), end='')
 
 print(apply_all_func([6, 20, 15, 9], len, sum, sorted), end='')
 
