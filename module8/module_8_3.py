@@ -59,7 +59,7 @@ class Car:
 
     def __is_valid_vin(self, vin_number) -> bool:  # Проверка Vin номера.
         if not isinstance(vin_number, int):  # Если передано не целое число.
-            raise IncorrectVinNumber(f'Некорректный тип vin номер {type(vin_number)}', vin_number)
+            raise IncorrectVinNumber(f'Некорректный тип vin номер {type(vin_number)}', repr(vin_number))
         elif not (1000000 <= vin_number <= 9999999):  # Если переданное число находится не в диапазоне
             # от 1000000 до 9999999 включительно.
             raise IncorrectVinNumber('Неверный диапазон для vin номера', vin_number)
@@ -68,7 +68,7 @@ class Car:
 
     def __is_valid_numbers(self, car_number) -> bool:  # Проверка номера машины.
         if not isinstance(car_number, str):  # Если передана не строка.
-            raise IncorrectCarNumbers(f'Некорректный тип данных для номеров {type(car_number)}', car_number)
+            raise IncorrectCarNumbers(f'Некорректный тип данных для номеров {type(car_number)}', repr(car_number))
         elif len(car_number) != 6:  # Переданная строка должна состоять ровно из 6 символов.
             raise IncorrectCarNumbers('Неверная длина номера', car_number)
         else:
