@@ -31,13 +31,13 @@ print("=== Введение в функциональное программир
 #   первой строкой ошибки ставился ВК.
 # - В ошибку вводим наименование функции к которой она принадлежит.
 # - Ошибка не прерывает работу обработку ( ошибочные данные отбрасываются из списка).
-# === Функции ===
+# === Классы ===
 class IncorrectListElementType(Exception):  # Обработчик ошибки типа.
     def __init__(self, message, value):
         self.message = message
         self.value = value
 
-
+# === Функции ===
 def check_list(int_list: list, func_name: str):
     def correct_elem(number):  # Проверка значения на принадлежность к типу int|float.
         global err_count  # Наводимся на глобальную переменную.
@@ -61,17 +61,17 @@ def check_list(int_list: list, func_name: str):
     return res
 
 
-def apply_all_func(int_list, *functions): # Функция высшего порядка. Функция высшего порядка-это та функция,
-                                            # которая в качестве аргументов может принимать другие функции.
+def apply_all_func(int_list, *functions):  # Функция высшего порядка. Функция высшего порядка-это та функция,
+    # которая в качестве аргументов может принимать другие функции.
     global err_count  # Ориентируем глобальную переменную
     err_count = 0  # Обнуляем значение.
     return {func.__name__: func(check_list(int_list, func.__name__)) for func in functions}  # Переменная result
-                                                                                # в данной конструкции не нужна.
+    # в данной конструкции не нужна.
 
 
 # === Прогон ===
 err_count = 0  # Определяем переменную.
-print(apply_all_func([6, 20, 'l',15, 9], max, min), end='')
+print(apply_all_func([6, 20, 'l', 15, 9], max, min), end='')
 
 print(apply_all_func([6, 20, 15, 9], len, sum, sorted), end='')
 
