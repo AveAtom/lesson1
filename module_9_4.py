@@ -1,4 +1,5 @@
 from random import choice
+
 print("=== Создание функций на лету. ====\n")
 
 # Задача "Функциональное разнообразие.":
@@ -52,38 +53,45 @@ print("=== Создание функций на лету. ====\n")
 first = 'Мама мыла раму'
 second = 'Рамена мало было'
 # Необходимо составить lambda-функцию для следующего выражения - list(map(?, first, second)).
-compare = lambda x,y: x==y # функция сравнивающая пары слов из first и second посимвольно.
-print(list(map(compare, first, second))) # Основной мотор сравнения.
+compare = lambda x, y: x == y  # функция сравнивающая пары слов из first и second посимвольно.
+print(list(map(compare, first, second)))  # Основной мотор сравнения.
+
 
 # Часть 2
 # === Функции ===
-def get_advanced_writer(file_name): # Замыкателем является имя файла.
+def get_advanced_writer(file_name):  # Замыкателем является имя файла.
     def write_everything(*data_set):
-        with open(file_name,'w+',encoding='utf-8') as file:
-            for i,elem in enumerate(data_set):
-                if isinstance(elem,list):
-                    file.write(f'\n{" ".join(map(str,elem))}') # Так как в ТЗ не было примера, то предположил,
+        with open(file_name, 'w+', encoding='utf-8') as file:
+            for i, elem in enumerate(data_set):
+                if isinstance(elem, list):
+                    file.write(f'\n{" ".join(map(str, elem))}')  # Так как в ТЗ не было примера, то предположил,
                     # что, если встречается список, то собираем его в строку и запускаем в файл отдельной строчкой.
                     # Такая конструкция обусловлена тем, что join не собирает не строковые элементы.
                 else:
-                    file.write(f'{"\n" if i!=0 else ""}{elem}') # Не ставим ВК только перед первым элеентом (если он не список)
+                    file.write(
+                        f'{"\n" if i != 0 else ""}{elem}')  # Не ставим ВК только перед первым элеентом (если он не список)
+
     return write_everything
+
+
 # === Прогон ===
-write = get_advanced_writer('example.txt') # Собираем замыкатель.
-write('Это строчка', ['А', 'это', 'уже', 'число', 5, 'в', 'списке'],'Это еще одна строчка')
+write = get_advanced_writer('example.txt')  # Собираем замыкатель.
+write('Это строчка', ['А', 'это', 'уже', 'число', 5, 'в', 'списке'], 'Это еще одна строчка')
+
 
 # Часть 3
 # === Классы ===
-class MysticBall: # Класс MysticBall, объекты которого обладают атрибутом words хранящий коллекцию строк.
-    def __init__(self,*args):
+class MysticBall:  # Класс MysticBall, объекты которого обладают атрибутом words хранящий коллекцию строк.
+    def __init__(self, *args):
         self.words = list(args)
-        #self.info()
+        # self.info()
 
-    def info(self): # Чтобы посмотреть, что передалось.
+    def info(self):  # Чтобы посмотреть, что передалось.
         print(self.words)
 
-    def __call__(self, *args, **kwargs): # Метод __call__ который будет случайным образом выбирать слово из words.
-        return choice(self.words) # Возвращаем случайный выбор.
+    def __call__(self, *args, **kwargs):  # Метод __call__ который будет случайным образом выбирать слово из words.
+        return choice(self.words)  # Возвращаем случайный выбор.
+
 
 # === Прогон ===
 first_ball = MysticBall('Да', 'Нет', 'Наверное')
