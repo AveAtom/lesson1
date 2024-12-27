@@ -63,6 +63,7 @@ def check_list(int_list: list, func_name: str):
 
 def apply_all_func(int_list, *functions):  # Функция высшего порядка. Функция высшего порядка-это та функция,
     # которая в качестве аргументов может принимать другие функции.
+    #print(int_list)
     global err_count  # Ориентируем глобальную переменную
     err_count = 0  # Обнуляем значение.
     return {func.__name__: func(check_list(int_list, func.__name__)) for func in functions}  # Переменная result
@@ -71,8 +72,8 @@ def apply_all_func(int_list, *functions):  # Функция высшего по�
 
 # === Прогон ===
 err_count = 0  # Определяем переменную.
-print(apply_all_func([6, 20, 'l', 15, 9], max, min), end='')
+print(apply_all_func([6, 20,'r', 15, 9], max, min), end='')
 
-print(apply_all_func([6, 20, 15, 9], len, sum, sorted), end='')
+print(apply_all_func([6, 20,15, 9], len, sum, sorted), end='')
 
 print('\n\n=== Конец обработки === ')
