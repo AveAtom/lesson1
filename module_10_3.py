@@ -79,6 +79,8 @@ class Bank:
                 self.lock.release()  # Разблокировка потока при балансе >= 500
         Bank.print_line(f'Deposit - Работу закончил.')  # Индикация окончания работы deposit.
         self.stop_thread = True  # Инициируем завершение остальных запущенных потоков.
+        if self.balance <500:
+            self.lock.release() # Если ходы закончились, а баланс < 500 (состояние acquire) - сбрасываем блокировку.
 
     def take(self):
         for i in range(200):
