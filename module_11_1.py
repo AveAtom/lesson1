@@ -24,6 +24,8 @@
 # ******************************************************
 from multiprocessing import Pool
 from datetime import datetime
+
+
 # === Функции ===
 # Создайте функцию read_info(name), где name - название файла. Функция должна:
 # 1.Создавать локальный список all_data.
@@ -31,10 +33,11 @@ from datetime import datetime
 # 3.Считывать информацию построчно (readline), пока считанная строка не окажется пустой.
 # 4.Во время считывания добавлять каждую строку в список all_data.
 def read_info(name):
-    all_data=[]
-    with open(name,'r',encoding='utf-8') as file:
-        while line:=file.readline():
+    all_data = []
+    with open(name, 'r', encoding='utf-8') as file:
+        while line := file.readline():
             all_data.append(line)
+
 
 # === Прогон ===
 filenames = [f'./module11/file {number}.txt' for number in range(1, 5)]
@@ -49,14 +52,13 @@ filenames = [f'./module11/file {number}.txt' for number in range(1, 5)]
 # 0:00:13.067752 (линейный)
 # exit()
 # Многопроцессный
-start=datetime.now()
+start = datetime.now()
 if __name__ == '__main__':
     with Pool(5) as p:
-        _=p.map(read_info, filenames)
-end=datetime.now()
-if (end-start).microseconds!=0:
+        _ = p.map(read_info, filenames)
+end = datetime.now()
+if (end - start).microseconds != 0:
     print("=== Многопроцессное программирование. ====\n")
     print('0:00:13.067752 (линейный)')
-    print(end-start,'(многопроцессный)')
+    print(end - start, '(многопроцессный)')
     print('\n=== Конец обработки. === ')
-
