@@ -49,88 +49,89 @@ from random import randint
 
 
 # === Классы ===
-class FullQueue(Exception): # Исключение при заполненности очереди.
+class FullQueue(Exception):  # Исключение при заполненности очереди.
     pass
 
 
-class Table: # Cтол, хранит информацию о находящемся за ним гостем (Guest).
-    def __init__(self, number: int): # Инициализация экземпляра класса.
-        self.number = number # Номер стола.
-        self.guest = None # Ссылка на объект гостя.
+class Table:  # Cтол, хранит информацию о находящемся за ним гостем (Guest).
+    def __init__(self, number: int):  # Инициализация экземпляра класса.
+        self.number = number  # Номер стола.
+        self.guest = None  # Ссылка на объект гостя.
 
 
-class Guest(threading.Thread): # Гость, поток, при запуске которого происходит задержка от 3 до 10 секунд.
-    def __init__(self, name): # Инициализация экземпляра класса.
+class Guest(threading.Thread):  # Гость, поток, при запуске которого происходит задержка от 3 до 10 секунд.
+    def __init__(self, name):  # Инициализация экземпляра класса.
         threading.Thread.__init__(self)
-        self.name = name # Имя гостя.
-        self.table = 0 # Номер стола за которым гость сидит.
+        self.name = name  # Имя гостя.
+        self.table = 0  # Номер стола за которым гость сидит.
 
     def run(self):
-        time.sleep(randint(3, 10)) # Время нахождения гостя за столом.
+        time.sleep(randint(3, 10))  # Время нахождения гостя за столом.
         Cafe.print_line(f'{self.name} (Стол № {self.table})  покушал(-а) и ушёл(ушла).')
 
 
 class Cafe:
-    __MAX_QUEUE = 10 # Длинна очереди.
+    __MAX_QUEUE = 10  # Длинна очереди.
+
     @staticmethod
-    def print_line(x): # Для вывода каждой строчки в консоли в отдельную строчку.
+    def print_line(x):  # Для вывода каждой строчки в консоли в отдельную строчку.
         cv.acquire()
         threading.Thread(target=print, args=(x,)).start()
         cv.release()
 
-    def __init__(self, *tables: [Table]): # Инициализация экземпляра класса.
-        self.tables = tables # Список объектов столов.
-        self.queue = Queue(maxsize=self.__MAX_QUEUE) # Очередь для гостей.
+    def __init__(self, *tables: [Table]):  # Инициализация экземпляра класса.
+        self.tables = tables  # Список объектов столов.
+        self.queue = Queue(maxsize=self.__MAX_QUEUE)  # Очередь для гостей.
 
-    def guest_arrival(self, *guests:[Guest]): # Метод прибытия гостей.
-        gen_guest = (guest for guest in guests) # Создаем генератор по списку гостей.
-        i_queue = self.queue.qsize()# Счетчик очереди.
-        #print('=== Очередь ===', i_queue)
-        list_tables = [table for table in self.tables if table.guest is None] # Получаем список свободных столов.
+    def guest_arrival(self, *guests: [Guest]):  # Метод прибытия гостей.
+        gen_guest = (guest for guest in guests)  # Создаем генератор по списку гостей.
+        i_queue = self.queue.qsize()  # Счетчик очереди.
+        # print('=== Очередь ===', i_queue)
+        list_tables = [table for table in self.tables if table.guest is None]  # Получаем список свободных столов.
         try:
-            for table in list_tables: # Если есть свободный стол, то сажаем гостя за стол (назначать столу guest),
-                    # запускаем поток гостя.
-                guest = next(gen_guest) # Запускаем итерацию.
-                table.guest = guest # Сажаем гостя за свободный стол.
-                guest.table = table.number # Выдаем гостю номерок.
-                list_guests.remove(guest) # Удаляем посетителей получивших место из списка желающих поесть.
+            for table in list_tables:  # Если есть свободный стол, то сажаем гостя за стол (назначать столу guest),
+                # запускаем поток гостя.
+                guest = next(gen_guest)  # Запускаем итерацию.
+                table.guest = guest  # Сажаем гостя за свободный стол.
+                guest.table = table.number  # Выдаем гостю номерок.
+                list_guests.remove(guest)  # Удаляем посетителей получивших место из списка желающих поесть.
                 Cafe.print_line(f'{guest.name} сел(-а) за стол номер {table.number}.')
-                guest.start() # Запускаем поток гостя.
+                guest.start()  # Запускаем поток гостя.
 
-            for guest in gen_guest: # Свободные столы закончились - заполняем очередь.
-                if i_queue==self.__MAX_QUEUE: # Если очередь заполнилась - вызываем исключение.
+            for guest in gen_guest:  # Свободные столы закончились - заполняем очередь.
+                if i_queue == self.__MAX_QUEUE:  # Если очередь заполнилась - вызываем исключение.
                     raise FullQueue('=== Очередь заполнена. ===')
-                self.queue.put(guest) # Заполняем очередь.
-                list_guests.remove(guest) # Удаляем посетителей получивших место из списка желающих поесть.
+                self.queue.put(guest)  # Заполняем очередь.
+                list_guests.remove(guest)  # Удаляем посетителей получивших место из списка желающих поесть.
                 Cafe.print_line(f'{guest.name} в очереди.')
-                i_queue += 1 # Увеличиваем счетчик очереди.
+                i_queue += 1  # Увеличиваем счетчик очереди.
             Cafe.print_line('=== Всех распределили. ===')
-            #print('=== Очередь ===', self.queue.qsize())
+            # print('=== Очередь ===', self.queue.qsize())
 
         except StopIteration as exc:
             Cafe.print_line('=== Гости закончились. ===')
         except FullQueue as exc:
             Cafe.print_line(exc)
 
-    def discuss_guests(self): # Метод обслуживания гостей.
-        i_count=1 # Счетчик занятых столов.
-        while i_count>0 or not self.queue.empty(): # Обработка запускается если за столами сидят или очередь - не пуста.
-            i_count=0 # Счетчик занятых столов.
-            for table in self.tables :
-                if not table.guest is None: # Если за столом сидят.
-                    i_count+=1 # Увеличение счетчика занятых столов.
-                    if not table.guest.is_alive(): # Если посетитель ушел.
+    def discuss_guests(self):  # Метод обслуживания гостей.
+        i_count = 1  # Счетчик занятых столов.
+        while i_count > 0 or not self.queue.empty():  # Обработка запускается если за столами сидят или очередь - не пуста.
+            i_count = 0  # Счетчик занятых столов.
+            for table in self.tables:
+                if not table.guest is None:  # Если за столом сидят.
+                    i_count += 1  # Увеличение счетчика занятых столов.
+                    if not table.guest.is_alive():  # Если посетитель ушел.
                         Cafe.print_line(f'Стол номер {table.number} свободен.')
-                        if not self.queue.empty(): # Если очередь не пуста.
-                            table.guest = self.queue.get() # Садим за стол первого в очереди (FIFO)
-                            table.guest.start() # Запускаем поток.
-                            table.guest.table=table.number # Даем номерок.
-                            Cafe.print_line(f'{table.guest.name} вышел(-ла) из очереди и сел(-а) за стол номер {table.number}.')
+                        if not self.queue.empty():  # Если очередь не пуста.
+                            table.guest = self.queue.get()  # Садим за стол первого в очереди (FIFO)
+                            table.guest.start()  # Запускаем поток.
+                            table.guest.table = table.number  # Даем номерок.
+                            Cafe.print_line(
+                                f'{table.guest.name} вышел(-ла) из очереди и сел(-а) за стол номер {table.number}.')
                             if self.queue.empty():
                                 Cafe.print_line('=== Очередь пуста. ===')
                         else:
                             table.guest = None
-
 
 
 # === Прогон ===
@@ -152,5 +153,5 @@ cafe.guest_arrival(*list_guests)
 cafe.discuss_guests()
 print('\n=== Ресторан закрыт. ===')
 print('\nКто хотел поесть:', guests_names)
-print('Кто не поел:',list([x.name for x in list_guests]))
+print('Кто не поел:', list([x.name for x in list_guests]))
 print('\n=== Конец обработки. === ')
